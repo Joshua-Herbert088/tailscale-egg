@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sudo curl -fsSL https://tailscale.com/install.sh | sh
+
 # Start the Tailscale daemon in the background
 tailscaled &
 
