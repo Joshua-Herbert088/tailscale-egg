@@ -1,24 +1,22 @@
 #!/bin/bash
 
-sudo curl -fsSL https://tailscale.com/install.sh | sh
-
-# Start the Tailscale daemon in the background
+# Start the Tailscale daemon
 tailscaled &
 
-# Wait for it to start up
+# Give it a second to boot
 sleep 3
 
-# Ensure auth key is provided
+# Check for required environment variable
 if [ -z "$TAILSCALE_AUTH_KEY" ]; then
-  echo "❌ TAILSCALE_AUTH_KEY is not set!"
+  echo "❌ TAILSCALE_AUTH_KEY not set! Cannot proceed."
   exit 1
 fi
 
-# Start Tailscale and join the network
-tailscale up --authkey="$TAILSCALE_AUTH_KEY" --hostname=ptero-vpn --accept-routes
+# Authenticate and connect
+tailscale up --authkey="$TAILSCALE_AUTH_KEY" --hostname=ptero-vpn --ssh
 
-# Show connection status
+# Show status
 tailscale status
 
-# Keep the container running
+# Keep container alive
 tail -f /dev/null
