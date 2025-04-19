@@ -1,28 +1,42 @@
 {
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
     "meta": {
-      "version": "PTDL_v2"
+        "version": "PTDL_v2",
+        "update_url": null
     },
-    "images": {
-      "ghcr.io/parkervcp/yolks:ubuntu": "ghcr.io/parkervcp/yolks:ubuntu"
+    "exported_at": "2025-04-19T17:57:17+02:00",
+    "name": "Tailscale VPN",
+    "author": "joshuajosephherbert@gmail.com",
+    "description": "Runs a Tailscale VPN connection inside the container. This pulls install\/start scripts from a public GitHub repo and joins the server to a Tailscale network using your auth key.",
+    "features": null,
+    "docker_images": {
+        "ghcr.io\/parkervcp\/yolks:ubuntu": "ghcr.io\/parkervcp\/yolks:ubuntu"
     },
-    "startup": "bash /home/container/start.sh",
+    "file_denylist": [],
+    "startup": "bash \/home\/container\/start.sh",
+    "config": {
+        "files": "{}",
+        "startup": "{\r\n    \"done\": \"Logged in\"\r\n}",
+        "logs": "{\r\n    \"log\": \"\/home\/container\/logs.txt\",\r\n    \"format\": \"text\",\r\n    \"type\": \"raw\"\r\n}",
+        "stop": "tail -f \/dev\/null"
+    },
     "scripts": {
-      "installation": {
-        "script": "#!/bin/bash\napt-get update -y && apt-get install -y git curl \ncd /mnt/server \ngit clone https://github.com/Joshua-Herbert088/tailscale-egg.git . \nchmod +x ./*.sh \n./install.sh \necho \"Install complete\"",
-        "container": "ghcr.io/parkervcp/installers:ubuntu",
-        "entrypoint": "bash"
-      }
+        "installation": {
+            "script": "#!\/bin\/bash\r\n\r\n# Install required tools\r\napt-get update -y && apt-get install -y git curl\r\n\r\n# Move into server directory (mounted path in install container)\r\ncd \/mnt\/server\r\n\r\n# Clone your GitHub repo into the server's directory\r\ngit clone https:\/\/github.com\/Joshua-Herbert088\/tailscale-egg.git .\r\n\r\n# Make all .sh scripts executable\r\nchmod +x .\/*.sh\r\n\r\n# Run the install script\r\n.\/install.sh\r\n\r\necho \"\u2705 Tailscale VPN setup complete.\"",
+            "container": "ghcr.io\/parkervcp\/installers:ubuntu",
+            "entrypoint": "bash"
+        }
     },
     "variables": [
-      {
-        "name": "Tailscale Auth Key",
-        "description": "Tailscale auth key for this node (from Tailscale admin console).",
-        "env_variable": "TAILSCALE_AUTH_KEY",
-        "default_value": "",
-        "user_viewable": true,
-        "user_editable": true,
-        "rules": "nullable|string|max:200"
-      }
+        {
+            "name": "Tailscale Auth Key",
+            "description": "Authentication key from your Tailscale admin panel. This is used to connect the server to your Tailnet.",
+            "env_variable": "TAILSCALE_AUTH_KEY",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string|max:200",
+            "field_type": "text"
+        }
     ]
-  }
-  
+}
