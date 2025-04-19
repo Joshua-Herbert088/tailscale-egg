@@ -1,5 +1,11 @@
 #!/bin/bash
-apt update && apt install -y curl gnupg2 lsb-release
-curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.gpg | apt-key add -
-curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.list | tee /etc/apt/sources.list.d/tailscale.list
-apt update && apt install -y tailscale
+
+cd /mnt/server
+
+# Clone scripts from GitHub into the container's server directory
+git clone https://github.com/Joshua-Herbert088/tailscale-egg.git .
+
+# Make all shell scripts executable
+chmod +x ./*.sh
+
+echo "✅ Tailscale scripts are ready."
