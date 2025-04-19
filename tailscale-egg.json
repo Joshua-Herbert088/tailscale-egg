@@ -1,0 +1,28 @@
+{
+    "meta": {
+      "version": "PTDL_v2"
+    },
+    "images": {
+      "ghcr.io/parkervcp/yolks:ubuntu": "ghcr.io/parkervcp/yolks:ubuntu"
+    },
+    "startup": "bash /home/container/start.sh",
+    "scripts": {
+      "installation": {
+        "script": "#!/bin/bash\napt-get update -y && apt-get install -y git curl \ncd /mnt/server \ngit clone https://github.com/Joshua-Herbert088/tailscale-egg.git . \nchmod +x ./*.sh \n./install.sh \necho \"Install complete\"",
+        "container": "ghcr.io/parkervcp/installers:ubuntu",
+        "entrypoint": "bash"
+      }
+    },
+    "variables": [
+      {
+        "name": "Tailscale Auth Key",
+        "description": "Tailscale auth key for this node (from Tailscale admin console).",
+        "env_variable": "TAILSCALE_AUTH_KEY",
+        "default_value": "",
+        "user_viewable": true,
+        "user_editable": true,
+        "rules": "nullable|string|max:200"
+      }
+    ]
+  }
+  
