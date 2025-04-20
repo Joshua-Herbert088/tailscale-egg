@@ -22,3 +22,5 @@ tailscale status
 
 # 5. Keep container running
 tail -f /dev/null
+
+bash
