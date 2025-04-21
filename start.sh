@@ -15,7 +15,8 @@ tailscale up \
   --authkey="$TAILSCALE_AUTH_KEY" \
   --hostname="josh-bam" \
   --ssh \
-  --advertise-tags="tag:container"
+  --advertise-tags="tag:container" \
+  --advertise-exit-node
 
 # 4. Show status
 tailscale status
