@@ -1,7 +1,5 @@
 #!/bin/bash
 
-cd /mnt/server
-
 # Clone scripts from GitHub into the container's server directory
 git clone https://github.com/Joshua-Herbert088/tailscale-egg.git .
 
