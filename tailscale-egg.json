@@ -1,0 +1,42 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v2",
+        "update_url": null
+    },
+    "exported_at": "2025-05-09T15:31:10+02:00",
+    "name": "Tailscale VPN",
+    "author": "joshuajosephherbert@gmail.com",
+    "description": "Runs a Tailscale VPN connection inside the container. This pulls install\/start scripts from a public GitHub repo and joins the server to a Tailscale network using your auth key.",
+    "features": null,
+    "docker_images": {
+        "ghcr.io\/parkervcp\/yolks:debian": "ghcr.io\/parkervcp\/yolks:debian"
+    },
+    "file_denylist": [],
+    "startup": ".\/start.sh",
+    "config": {
+        "files": "{}",
+        "startup": "{\r\n    \"done\": \"Logged in\"\r\n}",
+        "logs": "{\r\n    \"log\": \"\/home\/container\/logs.txt\",\r\n    \"format\": \"text\",\r\n    \"type\": \"raw\"\r\n}",
+        "stop": "^c"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!\/bin\/bash\r\n\r\n# Clone scripts from GitHub into the container's server directory\r\ngit clone https:\/\/github.com\/Joshua-Herbert088\/tailscale-egg.git .\r\n\r\n# Make all shell scripts executable\r\nchmod +x .\/*.sh\r\n\r\necho \"\u2705 Tailscale scripts are ready.\"",
+            "container": "debian:bullseye",
+            "entrypoint": "bash"
+        }
+    },
+    "variables": [
+        {
+            "name": "Tailscale Auth Key",
+            "description": "Authentication key from your Tailscale admin panel. This is used to connect the server to your Tailnet.",
+            "env_variable": "TAILSCALE_AUTH_KEY",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string|max:200",
+            "field_type": "text"
+        }
+    ]
+}
