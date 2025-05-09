@@ -4,7 +4,7 @@
         "version": "PTDL_v2",
         "update_url": null
     },
-    "exported_at": "2025-05-09T15:31:10+02:00",
+    "exported_at": "2025-05-09T15:57:59+02:00",
     "name": "Tailscale VPN",
     "author": "joshuajosephherbert@gmail.com",
     "description": "Runs a Tailscale VPN connection inside the container. This pulls install\/start scripts from a public GitHub repo and joins the server to a Tailscale network using your auth key.",
@@ -22,7 +22,7 @@
     },
     "scripts": {
         "installation": {
-            "script": "#!\/bin\/bash\r\n\r\n# Clone scripts from GitHub into the container's server directory\r\ngit clone https:\/\/github.com\/Joshua-Herbert088\/tailscale-egg.git .\r\n\r\n# Make all shell scripts executable\r\nchmod +x .\/*.sh\r\n\r\necho \"\u2705 Tailscale scripts are ready.\"",
+            "script": "#!\/bin\/bash\r\n\r\n# Update package lists and upgrade installed packages\r\napt update && apt upgrade -y\r\n\r\n# Install git if it's not installed\r\napt install -y git\r\n\r\ncd \/mnt\/server\r\n\r\n# Clone scripts from GitHub into the container's server directory\r\ngit clone https:\/\/github.com\/Joshua-Herbert088\/tailscale-egg.git .\r\n\r\n# Make all shell scripts executable\r\nchmod +x .\/*.sh\r\n\r\necho \"\u2705 Tailscale scripts are ready.\"",
             "container": "debian:bullseye",
             "entrypoint": "bash"
         }
