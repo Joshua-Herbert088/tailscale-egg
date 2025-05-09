@@ -37,25 +37,31 @@ fi
 
 cd "$TS_DIR" || exit 1
 
-# 4. Start tailscaled in userspace mode
-exec ./tailscaled --tun=userspace-networking \
+# Start tailscaled in the background
+./tailscaled --tun=userspace-networking \
   --state=tailscaled.state \
   --socket=tailscaled.sock \
-  --socks5-server=localhost:1055
+  --socks5-server=localhost:1055 &
 
+TAILSCALED_PID=$!
 
+# Wait a bit to ensure tailscaled has started
 sleep 2
 
-# 5. Bring up the Tailscale connection
+# Run tailscale up
 ./tailscale --socket=tailscaled.sock up \
   --auth-key="$TAILSCALE_AUTH_KEY" \
   --hostname="josh-bam" \
   --ssh \
   --advertise-tags="tag:container" \
   --advertise-exit-node || {
-    echo "❌ tailscale up failed."
-    kill $TS_PID
+    echo "❌ tailscale up failed"
+    kill $TAILSCALED_PID
     exit 1
 }
 
+# Optional: show connection status
 ./tailscale --socket=tailscaled.sock status
+
+# Wait for tailscaled to exit
+wait $TAILSCALED_PID
